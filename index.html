@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  
+
+  <style>
+body{
+  font-family: Arial,sans-serif;
+  font-size: 18px;
+}
+table {
+  border-collapse: collapse;
+  text-align: center;
+  border: 1px solid #ccc;
+  margin: 20px 0;
+}
+table td {
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+table td img {
+  width: 200px;
+}
+.code{
+  padding: 10px 5px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin: 10px 0;
+}
+button{
+  padding: 5px;
+  font-variant: small-caps;
+}
+
+  </style>
+  <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+</head>
+
+<body>
+	<div class='wrapper'>
+  <header>
+    <h1>Table2Tables transformation jQ Plugin v.1.0 (c)Yuri Solovyov</h1>
+
+  </header>
+  <main>
+    <h2>Исходная таблица:</h2>
+    <p>
+      Исходная таблица слишком широка для отображения на экранах смартфонов и это проблема! Плагин оформлен в виде функции-расширения jQuery и трансформирует исходную таблицу в несколько узких таблиц. При этом сохраняются обработчики событий для исходной таблицы.
+      Работает для любого числа строк и столбцов. Попробуйте сами!
+    </p>
+
+    <table id="table">
+      <tr>
+        <td>Code</td>
+        <td>Picture</td>
+        <td>Amount</td>
+        <td>Price</td>
+        <td>Total</td>
+      </tr>
+      <tr>
+        <td>04234</td>
+        <td>
+          <img src="http://opt.sports-life.by/22750-home_default/%D0%BA%D1%80%D0%BE%D1%81%D1%81%D0%BE%D0%B2%D0%BA%D0%B8-%D0%BC%D1%83%D0%B6%D1%81%D0%BA%D0%B8%D0%B5-asics-t4c4n-0142.jpg" />
+        </td>
+        <td>3</td>
+        <td>1250000</td>
+        <td>3750000</td>
+      </tr>
+      <tr>
+        <td>02111</td>
+        <td>
+          <img src="http://www.ecco-shoes.ru/images/eshop/img/jpg/225x225/800584_59198.jpg" />
+        </td>
+        <td>1</td>
+        <td>1250000</td>
+        <td>1250000</td>
+      </tr>
+      <tr>
+        <td>66611</td>
+        <td>
+          <img src="http://pi2.lmcdn.ru/img236x341/A/S/AS455AMHAU06_1_v3.jpg" />
+        </td>
+        <td>1</td>
+        <td>1530000</td>
+        <td>1530000</td>
+      </tr>
+    </table>
+
+    <button id="addRows">Добавить ряды</button>
+    <button id="renderTables">Трансформировать!</button>
+    <button id="source">Исходный код</button>
+    <section class="code" hidden>
+      <pre>
+  $.fn.table2tables = function(){
+  
+  if(!this[0].nodeName.length || this[0].nodeName !='TABLE'){
+    throw new Error('Selected element must be a TABLE node')
+  }
+    else
+    
+  var $table = $(this).clone(true),
+      rows = $('tr', $table),
+      that = this,
+      theadTd = $('thead td', $table),
+      theadTh = $('thead th', $table),
+      colsTd = $('tr:first td', $table),
+      cols = theadTh.length || theadTd.length || colsTd.length;
+  
+  
+    var tableArray = [];
+    for (var i = 0; i &lt; rows.length; i++){
+        tableArray[i] = [];
+        tableArray[i].push($(rows[0]).clone(true));
+        tableArray[i].push(rows[i+1]);
+    };
+    
+  
+  function newTableRows(d){
+   
+    var tableRows = [];
+    
+    for (var i = 0; i &lt; cols; i++){
+      
+      var newRow = [];
+      for (var j = 0; j &lt; 2; j++){
+        newRow.push($('td', tableArray[d][j])[i]);
+      }
+      
+      tableRows.push(newRow);
+  }
+
+    return tableRows
+  };
+   
+  function renderTable(table){
+    var newTable = $('&lt;table&gt;&lt;/table&gt;');
+    
+    for(var k = 0; k &lt; table.length; k++){
+    var tr = $('&lt;tr&gt;&lt;/tr&gt;'); 
+    tr.append(table[k]);
+    newTable.append(tr);
+    }
+    $(that).parent().append(newTable);
+  
+  };
+ 
+ for (f = 0; f &lt; rows.length-1; f++){
+  renderTable(newTableRows(f));
+};
+
+};
+
+//USAGE
+
+$('#table').table2tables();
+
+</pre>
+    </section>
+    <h2>Результат:</h2>
+  </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>
