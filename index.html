@@ -46,10 +46,10 @@ button{
 
   </header>
   <main>
-    <h2>Исходная таблица:</h2>
+    <h2>Initial table:</h2>
     <p>
-      Исходная таблица слишком широка для отображения на экранах смартфонов и это проблема! Плагин оформлен в виде функции-расширения jQuery и трансформирует исходную таблицу в несколько узких таблиц. При этом сохраняются обработчики событий для исходной таблицы.
-      Работает для любого числа строк и столбцов. Попробуйте сами!
+      <!-- Исходная таблица слишком широка для отображения на экранах смартфонов и это проблема!  -->Плагин оформлен в виде функции-расширения jQuery и трансформирует исходную таблицу в несколько узких таблиц. При этом сохраняются обработчики событий для исходной таблицы.
+      Работает для любого числа строк и столбцов. <!-- Попробуйте сами! -->
     </p>
 
     <table id="table">
@@ -66,8 +66,8 @@ button{
           <img src="http://opt.sports-life.by/22750-home_default/%D0%BA%D1%80%D0%BE%D1%81%D1%81%D0%BE%D0%B2%D0%BA%D0%B8-%D0%BC%D1%83%D0%B6%D1%81%D0%BA%D0%B8%D0%B5-asics-t4c4n-0142.jpg" />
         </td>
         <td>3</td>
-        <td>1250000</td>
-        <td>3750000</td>
+        <td>1 250 000</td>
+        <td>3 750 000</td>
       </tr>
       <tr>
         <td>02111</td>
@@ -75,8 +75,8 @@ button{
           <img src="http://www.ecco-shoes.ru/images/eshop/img/jpg/225x225/800584_59198.jpg" />
         </td>
         <td>1</td>
-        <td>1250000</td>
-        <td>1250000</td>
+        <td>1 250 000</td>
+        <td>1 250 000</td>
       </tr>
       <tr>
         <td>66611</td>
@@ -84,14 +84,14 @@ button{
           <img src="http://pi2.lmcdn.ru/img236x341/A/S/AS455AMHAU06_1_v3.jpg" />
         </td>
         <td>1</td>
-        <td>1530000</td>
-        <td>1530000</td>
+        <td>1 530 000</td>
+        <td>1 530 000</td>
       </tr>
     </table>
 
-    <button id="addRows">Добавить ряды</button>
-    <button id="renderTables">Трансформировать!</button>
-    <button id="source">Исходный код</button>
+    <button id="addRows">Add rows</button>
+    <button id="renderTables">Transform it!</button>
+    <button id="source">View source</button>
     <section class="code" hidden>
       <pre>
   $.fn.table2tables = function(){
@@ -107,11 +107,14 @@ button{
       theadTd = $('thead td', $table),
       theadTh = $('thead th', $table),
       colsTd = $('tr:first td', $table),
-      cols = theadTh.length || theadTd.length || colsTd.length;
-  
+	  colsTh = $('tr:first th', $table),
+      cols = theadTh.length || theadTd.length || colsTd.length || colsTh.length;
+	  if(excludeLastRow === true ){
+		var exclude = 1
+		}	else exclude = 0;
   
     var tableArray = [];
-    for (var i = 0; i &lt; rows.length; i++){
+    for (var i = 0; i &lt; rows.length - exclude; i++){
         tableArray[i] = [];
         tableArray[i].push($(rows[0]).clone(true));
         tableArray[i].push(rows[i+1]);
@@ -136,10 +139,10 @@ button{
   };
    
   function renderTable(table){
-    var newTable = $('&lt;table&gt;&lt;/table&gt;');
+    var newTable = $('&lt;table&gt;');
     
     for(var k = 0; k &lt; table.length; k++){
-    var tr = $('&lt;tr&gt;&lt;/tr&gt;'); 
+    var tr = $('&lt;tr&gt;'); 
     tr.append(table[k]);
     newTable.append(tr);
     }
@@ -159,7 +162,7 @@ $('#table').table2tables();
 
 </pre>
     </section>
-    <h2>Результат:</h2>
+    <h2>Result:</h2>
   </main>
   </div>
   <script src="script.js"></script>

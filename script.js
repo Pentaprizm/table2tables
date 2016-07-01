@@ -1,6 +1,6 @@
 // Code goes here
 $(function() {
-  $.fn.table2tables = function() {
+  $.fn.table2tables = function(excludeLastRow) {
 
     if (!this[0].nodeName.length || this[0].nodeName != 'TABLE') {
       throw new Error('Selected element must be a TABLE node')
@@ -11,11 +11,15 @@ $(function() {
       that = this,
       theadTd = $('thead td', $table),
       theadTh = $('thead th', $table),
-      colsTd = $('tr:first td', $table)
-      cols = theadTh.length || theadTd.length || colsTd.length;
+      colsTd = $('tr:first td', $table),
+	  colsTh = $('tr:first th', $table),
+      cols = theadTh.length || theadTd.length || colsTd.length || colsTh.length;
+	  if(excludeLastRow === true){
+		var exclude = 1
+	  }	else exclude = 0;
 
     var tableArray = [];
-    for (var i = 0; i < rows.length; i++) {
+    for (var i = 0; i < rows.length - exclude; i++) {
       tableArray[i] = [];
       tableArray[i].push($(rows[0]).clone(true));
       tableArray[i].push(rows[i + 1]);
@@ -38,10 +42,10 @@ $(function() {
     };
 
     function renderTable(table) {
-      var newTable = $('<table></table>');
+      var newTable = $('<table>');
 
       for (var k = 0; k < table.length; k++) {
-        var tr = $('<tr></tr>');
+        var tr = $('<tr>');
         tr.append(table[k]);
         newTable.append(tr);
       }
